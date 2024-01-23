@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ed4a3a, #001861);
+            background-size: 400% 400%;
+            animation: gradientBackground 7s ease infinite alternate;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 100% 0;
+            }
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            width: 85%; 
+            height: 85%; 
+            display: flex;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 40px; 
+            background-color: #ffffff; 
+            margin-top: 7%; 
+            margin-left: 5%;
+        }
+
+        .login-form h1 {
+            font-size: 24px;
+            font-family: 'Raleway', sans-serif; 
+            color: #ed4a3a; 
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        .form-group label {
+            display: block;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 70%; 
+            height: 50px;
+            padding-left: 30px; 
+            border: 1px solid #f0f0f0;
+            border-radius: 20px;
+            background-color: #f0f0f0; 
+        }
+
+        .form-group input[type="text"]::before {
+            content: "\2709"; 
+            position: absolute;
+            padding: 7px;
+        }
+
+        .form-group input[type="password"]::before {
+            content: "\1F512"; 
+            position: absolute;
+            padding: 20px;
+        }
+
+        .submit-button {
+            background-color: #ed4a3a; 
+            color: #fff;
+            width: 70%; 
+            height: 50px;
+            border: 1px solid #dfddf2;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 7%; 
+            margin-left: 3%;
+        }
+
+        .submit-button:hover {
+            background-color: #c13828; 
+        }
+
+        .login-image {
+            width: 43%;
+            height: 70%;
+            margin-top: 7%;
+            margin-bottom: 7%;
+            margin-right: 7%;
+        }
+
+        .error {
+            font-size: 18px;
+            font-family: 'Raleway', sans-serif; 
+            color: #ed4a3a; 
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <h1 style="font-family: 'Raleway', sans-serif; color: #ed4a3a; margin-left: 20%;">Project Pulse</h1>
+            <form action="/pulse/login" method="post">
+                <% if (error) { %>
+                    <p class="error"><%= error %></p>
+                <% } %>
+                <div class="form-group">
+                    <input type="text" name="email" id="email" placeholder="&#9993; Email" />
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" placeholder="&#128274; Password" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="submit-button" />
+                </div>
+            </form>
+        </div>
+        <img src="/images/login.png" alt="Login Image" class="login-image">
+    </div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            display: flex;
+            font-size: 15px;
+            
+        }
+
+        aside {
+            background: linear-gradient(to bottom, #001861, #0e305f);
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 100px;
+            background-color: #001861;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0; 
+        }
+
+        aside nav a:hover {
+            color: #ff4500;
+        }
+
+        button[type="submit"] {
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e63c00; 
+        }
+
+
+        nav {
+            display: flex;
+            flex-direction: column; 
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        nav a:hover {
+            background-color: #022d6f; 
+            transform: scale(1.05); 
+            transition: all 0.2s; 
+            border-radius: 5px;
+            padding: 5px 10px; 
+        }
+
+
+        main {
+            flex: 1; 
+            padding: 1px 20px;
+            min-height: 100vh;
+            flex-wrap: wrap; 
+        }
+
+        h2 {
+            margin: 0;
+            width: 100%;
+            Padding-top: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ed4a3a;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <aside>
+        <nav>
+            <a href="/pulse/dashboard"><i class="fas fa-tachometer-alt"></i> Overview</a>
+            <a href="/pulse/profile"><i class="fas fa-user"></i> Profile</a>
+            <a href="/pulse/users"><i class="fas fa-users"></i> Users</a>
+            <a href="/pulse/register"><i class="fas fa-user-plus"></i> Register</a>
+            <a href="/pulse/createproject"><i class="fas fa-plus-square"></i> Create Project</a>
+            <a href="/pulse/changepassword"><i class="fas fa-key"></i> Change Password</a>
+
+            <form action="/pulse/logout?_method=DELETE" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </nav>
+    </aside>
+
+    <main>
+        <h2>All Users</h2>
+
+        <% if(users && users.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                        <th>Credentials</th>
+                        <th>Projects</th>
+                        <th>Reports</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.username %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.adress %></td>
+                            <td><%= user.phonenumber %></td>
+                            <td><%= user.credentials %></td>
+                            <td><%= user.projects %></td>
+                            <td><%= user.reports %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No users available.</p>
+        <% } %>
+    </main>
+ 
+</body>
+
+</html>

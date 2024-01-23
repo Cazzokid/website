@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            display: flex;
+            font-size: 15px;
+            
+        }
+
+        /* Sidebar styles */
+        aside {
+            background: linear-gradient(to bottom, #001861, #0e305f);
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 100px;
+            background-color: #001861;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0; /* Don't grow the sidebar */
+        }
+
+        aside nav a:hover {
+            color: #ff4500;
+        }
+
+        button[type="submit"] {
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e63c00; 
+        }
+
+
+        nav {
+            display: flex;
+            flex-direction: column; 
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        nav a:hover {
+            background-color: #022d6f; 
+            transform: scale(1.05); 
+            transition: all 0.2s; 
+            border-radius: 5px;
+            padding: 5px 10px; 
+        }
+
+
+        main {
+            flex: 1; /* Take up remaining available space */
+            padding: 1px 20px;
+            min-height: 100vh;
+            flex-wrap: wrap; 
+        }
+
+        .greeting {
+            background-color: #001861; 
+            color: #fff; 
+            padding: 10px 20px; 
+            width: 97%;
+            height: 50px;
+            display: flex;
+            align-items: center; 
+            margin-bottom: 0;
+        }
+
+        h2 {
+            margin: 0;  
+            width: 100%;
+            Padding-top: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ed4a3a;
+        }
+
+        .date-details, .report-status {
+            margin: 5px 0; 
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        li {
+            background-color: #fff;
+            color: #001861;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .news-column {
+            width: 200px;
+            background-color: #fff; /* White background */
+            border: 1px solid #0020cd; /
+            padding: 10px;
+            margin-left: 20px;
+            min-height: 100vh;
+            font-size: 15px;
+        }
+        
+        .update-section {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .report-button {
+            background-color: #001861;
+            color: #fff;
+            padding: 5px 10px;
+            height: 150px;
+            width: 200px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .report-button:hover {
+            background-color: #ff4500;
+            color: #fff;
+        }
+
+        .project {
+            background-color: #dfddf2;
+            margin-bottom: 20px;
+            padding: 10px;
+            margin-top: 10px;
+            margin-left: 10px
+        }
+        .create-report-btn-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0; 
+        }
+
+        .create-report-btn {
+            background-color: #ff4500; 
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none; 
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .create-report-btn:hover {
+            background-color: #e63c00; /
+        }
+
+
+        
+        .update {
+            background-color: #fff;
+            color: #001861;
+            border-radius: 5px;
+            padding: 10px; 
+            margin: 10px 0; /* Add vertical margin */
+            border-bottom: 1px solid #001861;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; 
+            
+        }
+
+
+        .update p:first-child {
+            color: #ff4500;
+            margin-bottom: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <aside>
+         <nav>
+            <a href="/pulse/dashboard"><i class="fas fa-tachometer-alt"></i> Overview</a>
+            <a href="/pulse/profile"><i class="fas fa-user"></i> Profile</a>
+            <a href="/pulse/users"><i class="fas fa-users"></i> Users</a>
+            <a href="/pulse/register"><i class="fas fa-user-plus"></i> Register</a>
+            <a href="/pulse/createproject"><i class="fas fa-plus-square"></i> Create Project</a>
+            <a href="/pulse/changepassword"><i class="fas fa-key"></i> Change Password</a>
+
+            <form action="/pulse/logout?_method=DELETE" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </nav>
+    </aside>
+    <main>
+        <div class="greeting">
+            <h1 style="flex-grow: 1;"> <%= project.project_name %> </h1>
+            <a href="/pulse/editproject/<%= project.project_id %>" style="background-color: #ff4500; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; align-self: center;">Edit Project</a>
+        </div>
+
+        
+        <div class="project" style="background-color: #dfddf2; margin-bottom: 20px;">
+            <h2>Project Information:</h2>
+            <p><strong>Project Name:</strong> <%= project.project_name %></p>
+            <p><strong>Start Date:</strong> <%= new Date(project.project_start_date).toLocaleString() %></p>
+            <p><strong>End Date:</strong> <%= new Date(project.project_end_date).toLocaleString() %></p>
+            <p><strong>Project Manager: </strong> <%= project.project_manager_username %></p>
+            <p><strong>Report Frequency:</strong> <%= project.report_frequency %></p>
+            <p><strong>Report Time:</strong> <%= project.reporting_time%></p>
+            
+            <% if (project.report_frequency !== 'daily') { %>
+                <p><strong>Report Day:</strong> <%= project.report_day %></p>
+            <% } %>
+        </div>
+
+        <div class="create-report-btn-container">
+            <a href="/pulse/createreport/<%= project.project_id %>" class="create-report-btn">Create Report</a>
+        </div>
+
+        <h2>Reports:</h2>
+        <% report.forEach(function(report) { %>
+            <div class="update">
+                <div class="report-details">
+                    <p><strong>Report Name:</strong> <%= report.report_name %></p>
+                    <p><strong>Description:</strong> <%= report.report_description %></p>
+                    <p><strong>Start Date:</strong> <%= new Date(report.report_start_date).toLocaleString() %></p>
+                    <p><strong>End Date:</strong> <%= new Date(report.report_end_date).toLocaleString() %></p>
+                    <p><strong>Status:</strong> <%= report.report_status %></p>
+                    <p><strong>Assigned User:</strong> <%= report.assigned_username %></p>
+                </div>
+                <a href="/pulse/reports/<%= report.report_id %>" class="report-button-link">
+                    <button class="report-button">See report</button>
+                </a>
+            </div>
+        <% }); %>
+        
+    </main>
+
+    <div class="news-column">
+        <h2>Members: </h2>
+        <div class="update-section">
+            <% users.forEach(function(user) { %>
+                <div class="update">
+                        <p><%= user.username %></p>
+                        
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+</body>
+</html>

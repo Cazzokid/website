@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+       body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            display: flex;
+            font-size: 15px;
+            
+        }
+
+        /* Sidebar styles */
+        aside {
+            background: linear-gradient(to bottom, #001861, #0e305f);
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 100px;
+            background-color: #001861;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0; /* Don't grow the sidebar */
+        }
+
+        aside nav a:hover {
+            color: #ff4500;
+        }
+
+        button[type="submit"] {
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e63c00; 
+        }
+
+
+        nav {
+            display: flex;
+            flex-direction: column; 
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        nav a:hover {
+            background-color: #022d6f; 
+            transform: scale(1.05); 
+            transition: all 0.2s; 
+            border-radius: 5px;
+            padding: 5px 10px; 
+        }
+
+
+        main {
+            flex: 1; /* Take up remaining available space */
+            padding: 1px 20px;
+            min-height: 100vh;
+            flex-wrap: wrap; 
+        }
+
+        .greeting {
+            background-color: #001861; /* Blue background */
+            color: #fff; /* White text */
+            padding: 10px 20px; 
+            width: 97%;
+            height: 50px;
+            display: flex;
+            align-items: center; 
+            margin-bottom: 0;
+        }
+
+        h2 {
+            margin: 0; 
+            width: 100%;
+            Padding-top: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ed4a3a;
+        }
+
+        .date-details, .report-status {
+            margin: 5px 0; 
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        li {
+            background-color: #fff;
+            color: #001861;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .news-column {
+            width: 200px;
+            background-color: #fff; /* White background */
+            border: 1px solid #0020cd; /* Blue outline */
+            padding: 10px;
+            margin-left: 20px;
+            min-height: 100vh;
+            font-size: 15px;
+        }
+        
+        .update-section {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .report-button {
+            background-color: #001861;
+            color: #fff;
+            padding: 5px 10px;
+            height: 150px;
+            width: 200px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .report-button:hover {
+            background-color: #ff4500;
+            color: #fff;
+        }
+
+        .report {
+            background-color: #dfddf2;
+            margin-bottom: 20px;
+            height: 450px;
+            padding: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .report form > div {
+            margin-bottom: 5px;  /* Adjust this value as needed for desired spacing */
+        }
+
+        label, select, input {
+            
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+    </style>
+    <script>
+        function setCurrentDateAsMin() {
+            const today = new Date();
+            const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            document.getElementById("startdate").setAttribute("min", formattedDate);
+        }
+    
+        function setMinEndDate() {
+            const startDate = document.getElementById("startdate").value;
+            document.getElementById("enddate").setAttribute("min", startDate);
+        }
+    
+        function setMaxStartDate() {
+            const endDate = document.getElementById("enddate").value;
+            document.getElementById("startdate").setAttribute("max", endDate);
+        }
+    
+        function combineDateTime() {
+        const startDate = document.getElementById("startdate").value;
+        const startTime = document.getElementById("starttime").value;
+        document.getElementById("datetimeStart").value = `${startDate} ${startTime}:00`;
+    
+        const endDate = document.getElementById("enddate").value;
+        const endTime = document.getElementById("endtime").value;
+        document.getElementById("datetimeEnd").value = `${endDate} ${endTime}:00`;
+      }
+    
+      function validateForm() {
+          const startDate = document.getElementById("startdate").value;
+          const endDate = document.getElementById("enddate").value;
+          const startTime = document.getElementById("starttime").value;
+          const endTime = document.getElementById("endtime").value;
+    
+          if (startDate === endDate && endTime <= startTime) {
+              document.getElementById("timeError").style.display = "inline";
+              return false; 
+          } else {
+              document.getElementById("timeError").style.display = "none";
+              combineDateTime(); 
+              return true; 
+          }
+      }
+    
+      function updateReportDayStatus() {
+        const frequency = document.getElementById("projectfrequency").value;
+        const reportDayDropdown = document.getElementById("reportday");
+        const reportDayLabel = document.querySelector("label[for='reportday']");
+    
+        if (frequency === "daily") {
+            reportDayDropdown.style.display = "none";
+            reportDayLabel.style.display = "none";
+        } else {
+            reportDayDropdown.style.display = "block";
+            reportDayLabel.style.display = "block";
+        }
+    }  
+    </script>
+</head>
+<body onload="setCurrentDateAsMin(); updateReportDayStatus();">
+    <aside>
+         <nav>
+            <a href="/pulse/dashboard"><i class="fas fa-tachometer-alt"></i> Overview</a>
+            <a href="/pulse/profile"><i class="fas fa-user"></i> Profile</a>
+            <a href="/pulse/users"><i class="fas fa-users"></i> Users</a>
+            <a href="/pulse/register"><i class="fas fa-user-plus"></i> Register</a>
+            <a href="/pulse/createproject"><i class="fas fa-plus-square"></i> Create Project</a>
+            <a href="/pulse/changepassword"><i class="fas fa-key"></i> Change Password</a>
+
+            <form action="/pulse/logout?_method=DELETE" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </nav>
+    </aside>
+    <main>
+      <div class="greeting">
+          <h1 style="flex-grow: 1;"><%= report[0].report_name %></h1>
+          <a href="/pulse/reports/<%= report[0].report_id %>" style="background-color: #ff4500; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; align-self: center;">Back</a>
+          <a href="/pulse/project/<%= report[0].project_id %>" style="background-color: #ff4500; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; align-self: center; margin-left: 10px;">Back to project</a>
+      </div>
+
+      <div class="report">
+        <form action="/pulse/editreport" method="post" onsubmit="return validateForm();">
+          <h2>Report Information:</h2>
+          <input type="hidden" name="reportid" value="<%= report[0].report_id %>">
+          <input type="hidden" id="projectstart" name="projectstart" value="<%= project_start_date %>">
+          <input type="hidden" id="projectend" name="projectend" value="<%= project_end_date %>">
+
+            <div>
+            <label for="projectname">Report name:</label>
+            <input type="text" id="reportname" name="reportname" required value="<%= report[0].report_name %>">
+            </div>
+
+            <div>
+            <label for="description">Report description:</label>
+            <input type="text" id="description" name="description" required value="<%= report[0].report_description %>">
+            </div>
+
+            <div>
+            <label for="startdate">Start Date:</label>
+            <input type="date" id="startdate" name="startdate" required value="<%= report[0].report_start_date.toISOString().split('T')[0] %>" onchange="setMinEndDate()">
+            </div>
+
+            <div>
+            <label for="enddate">End Date:</label>
+            <input type="date" id="enddate" name="enddate" required value="<%= report[0].report_end_date.toISOString().split('T')[0] %>"onchange="setMaxStartDate()">
+            </div>
+
+            <div>
+            <label for="starttime">Start Time:</label>
+            <input type="time" id="starttime" name="starttime" required value="<%= report[0].report_start_date.toISOString().split('T')[1] %>">
+            </div>
+
+            <div>
+            <label for="endtime">End Time:</label>
+            <input type="time" id="endtime" name="endtime" required value="<%= report[0].report_end_date.toISOString().split('T')[1] %>">
+            </div>
+            
+            <span id="timeError" style="color: red; display: none;">End time must be after start time!</span>
+            <input type="hidden" id="datetimeStart" name="datetimeStart">
+            <input type="hidden" id="datetimeEnd" name="datetimeEnd">
+
+          <p><strong>Report Frequency:</strong> <%= report[0].report_frequency %></p>
+          <% if (report[0].report_frequency !== 'daily') { %>
+              <p><strong>Report Day:</strong> <%= report[0].report_day %></p>
+          <% } %>
+          <p><strong>Status:</strong> <%= report[0].report_status %></p>
+          <p><strong>Assigned User:</strong> <%= report[0].assigned_username %></p>
+          
+          <button type="submit">Update Project</button>
+        </form>
+      </div>
+  </main>
+    
+</body>
+</html>

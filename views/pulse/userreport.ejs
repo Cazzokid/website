@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            display: flex;
+            font-size: 15px;
+            
+        }
+
+        /* Sidebar styles */
+        aside {
+            background: linear-gradient(to bottom, #001861, #0e305f);
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 100px;
+            background-color: #001861;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0; /* Don't grow the sidebar */
+        }
+
+        aside nav a:hover {
+            color: #ff4500;
+        }
+
+        button[type="submit"] {
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e63c00; 
+        }
+
+
+        nav {
+            display: flex;
+            flex-direction: column; /* Display navigation items in a column */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        nav a:hover {
+            background-color: #022d6f; /* Slightly darker blue */
+            transform: scale(1.05); /* Enlarge the link a bit */
+            transition: all 0.2s; /* Smooth transition */
+            border-radius: 5px;
+            padding: 5px 10px; /* Add some padding */
+        }
+
+
+        main {
+            flex: 1; /* Take up remaining available space */
+            padding: 1px 20px;
+            min-height: 100vh;
+            flex-wrap: wrap; 
+        }
+
+        .greeting {
+            background-color: #001861; /* Blue background */
+            color: #fff; /* White text */
+            padding: 10px 20px; /* Some padding for the greeting */
+            width: 97%;
+            height: 50px;
+            display: flex;
+            align-items: center; /* Center items vertically */
+            margin-bottom: 0;
+        }
+
+        h2 {
+            margin: 0;  /* Ensuring there's no margin */
+            width: 100%;
+            Padding-top: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ed4a3a;
+        }
+
+        .date-details, .report-status {
+            margin: 5px 0; 
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        li {
+            background-color: #fff;
+            color: #001861;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .news-column {
+            width: 200px;
+            background-color: #fff; /* White background */
+            border: 1px solid #0020cd; /* Blue outline */
+            padding: 10px;
+            margin-left: 20px;
+            min-height: 100vh;
+            font-size: 15px;
+        }
+        
+        .update-section {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .report-button {
+            background-color: #001861;
+            color: #fff;
+            padding: 5px 10px;
+            height: 150px;
+            width: 200px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .report-button:hover {
+            background-color: #ff4500;
+            color: #fff;
+        }
+
+        .report-info {
+            background-color: #dfddf2;
+            margin-bottom: 20px;
+            padding: 10px;
+            margin-top: 10px;
+            margin-left: 10px
+        }
+
+        
+    </style>
+</head>
+<body>
+    <aside>
+         <nav>
+            <a href="/pulse/dashboard"><i class="fas fa-tachometer-alt"></i> Overview</a>
+            <a href="/pulse/profile"><i class="fas fa-user"></i> Profile</a>
+            <a href="/pulse/changepassword"><i class="fas fa-key"></i> Change Password</a>
+
+            <form action="/pulse/logout?_method=DELETE" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </nav>
+    </aside>
+    <main>
+      <div class="greeting">
+          <h1 style="flex-grow: 1;"><%= report[0].report_name %></h1>
+          <a href="/pulse/userproject/<%= report[0].project_id %>" style="background-color: #ff4500; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; align-self: center; margin-left: 10px;">Back to project</a>
+      </div>
+
+      <div class="report-info" style="background-color: #dfddf2; margin-bottom: 20px;">
+          <h2>Report Information:</h2>
+          <p><strong>Description:</strong> <%= report[0].report_description %></p>
+          <p><strong>Start Date:</strong> <%= new Date(report[0].report_start_date).toLocaleString() %></p>
+          <p><strong>End Date:</strong> <%= new Date(report[0].report_end_date).toLocaleString() %></p>
+          <p><strong>Report Frequency:</strong> <%= report[0].report_frequency %></p>
+          <p><strong>Report Time:</strong> <%= report[0].reporting_time%></p>
+          <% if (report[0].report_frequency !== 'daily') { %>
+              <p><strong>Report Day:</strong> <%= report[0].report_day %></p>
+          <% } %>
+          <p><strong>Status:</strong> <%= report[0].report_status %></p>
+          <p><strong>Assigned User:</strong> <%= report[0].assigned_username %></p>
+      </div>
+
+
+      <div style="display: flex; justify-content: space-between;">
+        <% if (isSubmittable) { %>
+            <div class="report-writing-section" style="width: 70%;">
+                <h2>Write your report here:</h2>
+                <form action="/pulse/updatereport" method="post">
+                    <textarea 
+                        name="content"
+                        style="width: 100%; height: 300px; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #0020cd; resize: both;"
+                    ></textarea>
+
+                    <input type="hidden" name="reportid" value="<%= reportid %>">
+                    <input type="hidden" name="status" value="completed">
+
+                    <div style="display: flex; justify-content: space-between; width: 200px; margin-top: 10px; margin-bottom: 20px;">
+                        <button class="report-button" type="submit" style="width: 100px; height: 50px; margin-left: 20px;">Submit</button>
+                    </div>
+                </form>
+            </div>
+        <% } else { %>
+            <div class="report-writing-section" style="width: 70%;">
+                <form>
+                    <% if (content[0].report_comments && content[0].report_comments.trim() !== '') { %>
+                        <% } else { %>
+                    <h3>Awaiting manager reviewal - next rapport will be due <%=  new Date(getNextSubmissionTime).toLocaleString()%> </h3>
+                    <% } %>
+                        <textarea style="width: 100%; height: 300px; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #0020cd; resize: both; background-color: #dfddf2;"
+                        readonly><%= content[0].content %>
+                        </textarea>
+                </form>
+            </div>
+        <% } %>
+    
+        <!-- Manager comments section -->
+        <div style="width: 25%; height: 300px; padding: 10px; border: 1px solid #0020cd; border-radius: 5px; margin-left: 10px;">
+            <h3>Feedback:</h3>
+            <% if (content[0].report_comments && content[0].report_comments.trim() !== '') { %>
+                <p><%= content[0].report_comments %></p>
+                <p style="margin-left: 200px;">- <%= report[0].project_manager_username%></p>
+            <% } else { %>
+                <% } %>
+        </div>
+    </div>
+
+</main>
+    
+</body>
+</html>
